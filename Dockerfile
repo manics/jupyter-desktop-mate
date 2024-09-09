@@ -5,15 +5,31 @@ USER root
 
 # hadolint ignore=DL3008
 RUN apt-get update -y -q \
- && apt-get install -y -q \
+ && apt-get install -y -q --no-install-recommends \
         # xclip is added so Playwright can test the clipboard
         xclip \
         tigervnc-standalone-server \
         ubuntu-mate-desktop \
         vim \
+        # Selected recommends
+        fonts-liberation2 \
+        mate-applet-brisk-menu \
+        mate-calc \
+        mate-hud \
+        mate-optimus \
+        mate-sensors-applet \
+        mate-system-monitor \
+        mate-tweak \
+        mate-user-admin \
+        mate-window-buttons-applet \
+        mate-window-menu-applet \
+        mate-window-title-applet \
+        tigervnc-tools \
+        ubuntu-mate-artwork \
+        xdg-desktop-portal-gtk \
  && add-apt-repository -y ppa:mozillateam/ppa \
  && printf 'Package: firefox*\nPin: release o=LP-PPA-mozillateam\nPin-Priority: 1001\n' > /etc/apt/preferences.d/firefox \
- && apt-get install -y -q --allow-downgrades firefox \
+ && apt-get install -y -q --no-install-recommends --allow-downgrades firefox \
  && apt-get purge -y -q \
         blueman \
         mate-screensaver \
