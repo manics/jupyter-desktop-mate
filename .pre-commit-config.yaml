@@ -23,8 +23,19 @@ repos:
       - id: end-of-file-fixer
       - id: trailing-whitespace
 
+  # Lint: Dockerfile
+  - repo: https://github.com/hadolint/hadolint.git
+    rev: v2.13.0-beta
+    hooks:
+      - id: hadolint-docker
+        entry: hadolint/hadolint:v2.12.1-beta hadolint
+
   # Lint: Python
   - repo: https://github.com/PyCQA/flake8
     rev: 7.1.1
     hooks:
       - id: flake8
+        args: [
+            # default black line length is 88
+            --max-line-length=88,
+          ]
