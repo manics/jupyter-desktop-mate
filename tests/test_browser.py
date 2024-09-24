@@ -53,7 +53,7 @@ def test_desktop(browser):
     page1.wait_for_timeout(5000)
     # Use a non temporary folder so we can check it manually if necessary
     screenshot = Path("screenshots") / "desktop.png"
-    page1.locator("canvas").screenshot(path=screenshot)
+    page1.locator("body").screenshot(path=screenshot)
 
     # Open clipboard, enter random text, close clipboard
     clipboard_text = str(uuid4())

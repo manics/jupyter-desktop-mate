@@ -4,6 +4,8 @@
 
 A container image providing the [MATE Desktop](https://mate-desktop.org/) running in Jupyter, using [Jupyter Remote Desktop Proxy](https://github.com/jupyterhub/jupyter-remote-desktop-proxy/).
 
+![Screenshot of jupyter-desktop-mate](https://raw.githubusercontent.com/manics/jupyter-desktop-mate/main/tests/reference/desktop.png)
+
 ## Usage
 
 ```
