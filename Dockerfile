@@ -6,10 +6,14 @@ USER root
 # hadolint ignore=DL3008
 RUN apt-get update -y -q \
  && apt-get install -y -q --no-install-recommends \
-        # xclip is added so Playwright can test the clipboard
-        xclip \
         tigervnc-standalone-server \
         ubuntu-mate-desktop \
+        # xclip is added so Playwright can test the clipboard
+        xclip \
+        # Useful command line tools
+        curl \
+        less \
+        tmux \
         vim \
         # Selected recommends
         fonts-liberation2 \
