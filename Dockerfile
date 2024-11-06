@@ -1,5 +1,5 @@
-# hadolint ignore=DL3007
-FROM quay.io/jupyter/base-notebook:latest
+# Latest is broken https://github.com/jupyter/docker-stacks/issues/2170
+FROM quay.io/jupyter/base-notebook:2024-10-28
 
 USER root
 
@@ -49,7 +49,9 @@ COPY --chown=$NB_UID:$NB_GID requirements.txt /tmp
 RUN . /opt/conda/bin/activate && \
     pip install --no-cache-dir -r /tmp/requirements.txt
 
-COPY --chown=$NB_UID:$NB_GID start-mate.sh $HOME/.vnc/xstartup
+# $HOME/.vnc/xstartup may be shadowed if the home directory is mounted
+# https://github.com/jupyterhub/jupyter-remote-desktop-proxy/pull/134
+COPY start-mate.sh /opt/conda/lib/python3.12/site-packages/jupyter_remote_desktop_proxy/share/xstartup
 
 # Add some shortcuts to the desktop
 RUN mkdir -p "$HOME/Desktop" && \
