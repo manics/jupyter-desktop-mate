@@ -1,5 +1,5 @@
 # Latest is broken https://github.com/jupyter/docker-stacks/issues/2170
-FROM quay.io/jupyter/base-notebook:2024-10-28
+FROM quay.io/jupyter/base-notebook:2024-11-11
 
 USER root
 
