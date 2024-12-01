@@ -1,5 +1,4 @@
-# Latest is broken https://github.com/jupyter/docker-stacks/issues/2170
-FROM quay.io/jupyter/base-notebook:2024-10-28
+FROM quay.io/jupyter/base-notebook:2024-11-25
 
 USER root
 
@@ -51,6 +50,7 @@ COPY --chown=$NB_UID:$NB_GID requirements.txt /tmp
 
 # hadolint ignore=SC1091
 RUN . /opt/conda/bin/activate && \
+    mamba install "nodejs>=22" && \
     pip install --no-cache-dir -r /tmp/requirements.txt
 
 # $HOME/.vnc/xstartup may be shadowed if the home directory is mounted
