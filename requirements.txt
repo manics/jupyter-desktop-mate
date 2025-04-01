@@ -1,1 +1,1 @@
-https://github.com/jupyterhub/jupyter-remote-desktop-proxy/archive/30e67ebda5f4e442636e1532b39602850bcff418.zip
+jupyter-remote-desktop-proxy==3.0.0
