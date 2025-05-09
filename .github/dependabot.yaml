@@ -10,3 +10,9 @@ updates:
     directory: /
     schedule:
       interval: monthly
+
+  # Python package requirements
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: monthly
