@@ -153,5 +153,6 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           push: ${{ steps.publish.outputs.push }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          # Don't use cache if this image will be published
+          cache-from: ${{ steps.publish.outputs.push == 'false' && 'type=gha' || '' }}
+          cache-to: ${{ steps.publish.outputs.push == 'false' && 'type=gha,mode=max' || '' }}
