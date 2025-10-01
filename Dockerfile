@@ -1,4 +1,4 @@
-FROM quay.io/jupyter/base-notebook:2025-07-28
+FROM quay.io/jupyter/base-notebook:2025-09-30
 
 USER root
 
@@ -55,7 +55,7 @@ RUN . /opt/conda/bin/activate && \
 
 # $HOME/.vnc/xstartup may be shadowed if the home directory is mounted
 # https://github.com/jupyterhub/jupyter-remote-desktop-proxy/pull/134
-COPY start-mate.sh /opt/conda/lib/python3.12/site-packages/jupyter_remote_desktop_proxy/share/xstartup
+COPY start-mate.sh /opt/conda/lib/python3.13/site-packages/jupyter_remote_desktop_proxy/share/xstartup
 
 # Add some shortcuts to the desktop
 RUN mkdir -p "$HOME/Desktop" && \
