@@ -12,6 +12,7 @@ RUN apt-get update -y -q \
         # Useful command line tools
         curl \
         less \
+        rsync \
         tmux \
         vim \
         # Selected recommends
@@ -46,20 +47,26 @@ RUN apt-get update -y -q \
 
 USER $NB_USER
 
+# requirements.txt can be bumped by dependabot, convert to conda requirement
 COPY --chown=$NB_UID:$NB_GID requirements.txt /tmp
 
-# hadolint ignore=SC1091
+# hadolint ignore=SC1091,SC2046
 RUN . /opt/conda/bin/activate && \
-    mamba install "nodejs>=22" && \
-    pip install --no-cache-dir -r /tmp/requirements.txt
+    mamba install --no-allow-downgrade \
+        "nodejs=24" \
+        $(sed s/==/=/ /tmp/requirements.txt) && \
+    mamba clean --all
 
+COPY start-mate.sh start-tigervnc.sh /usr/local/bin/
 # $HOME/.vnc/xstartup may be shadowed if the home directory is mounted
 # https://github.com/jupyterhub/jupyter-remote-desktop-proxy/pull/134
-COPY start-mate.sh /opt/conda/lib/python3.13/site-packages/jupyter_remote_desktop_proxy/share/xstartup
+RUN ln -sf /usr/local/bin/start-mate.sh /opt/conda/lib/python3.13/site-packages/jupyter_remote_desktop_proxy/share/xstartup
 
-# Add some shortcuts to the desktop
-RUN mkdir -p "$HOME/Desktop" && \
+# Add some shortcuts to the desktop and make a copy of HOME in case it's shadowed by a mount
+ENV HOME_TEMPLATE_DIR=/opt/install/home.template
+RUN rsync -a "$HOME" "$HOME_TEMPLATE_DIR" && \
+    mkdir "$HOME_TEMPLATE_DIR/Desktop" && \
     ln -s \
         /usr/share/applications/mate-terminal.desktop \
         /usr/share/applications/firefox.desktop \
-        "$HOME/Desktop"
+        "$HOME_TEMPLATE_DIR/Desktop"
