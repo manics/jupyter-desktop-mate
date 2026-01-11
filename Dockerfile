@@ -50,7 +50,7 @@ COPY --chown=$NB_UID:$NB_GID requirements.txt /tmp
 
 # hadolint ignore=SC1091
 RUN . /opt/conda/bin/activate && \
-    mamba install "nodejs>=22" && \
+    mamba install "nodejs=24" && \
     pip install --no-cache-dir -r /tmp/requirements.txt
 
 # $HOME/.vnc/xstartup may be shadowed if the home directory is mounted
