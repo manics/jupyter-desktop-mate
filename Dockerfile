@@ -47,12 +47,15 @@ RUN apt-get update -y -q \
 
 USER $NB_USER
 
+# requirements.txt can be bumped by dependabot, convert to conda requirement
 COPY --chown=$NB_UID:$NB_GID requirements.txt /tmp
 
-# hadolint ignore=SC1091
+# hadolint ignore=SC1091,SC2046
 RUN . /opt/conda/bin/activate && \
-    mamba install "nodejs=24" && \
-    pip install --no-cache-dir -r /tmp/requirements.txt
+    mamba install --no-allow-downgrade \
+        "nodejs=24" \
+        $(sed s/==/=/ /tmp/requirements.txt) && \
+    mamba clean --all
 
 COPY start-mate.sh start-tigervnc.sh /usr/local/bin/
 # $HOME/.vnc/xstartup may be shadowed if the home directory is mounted
