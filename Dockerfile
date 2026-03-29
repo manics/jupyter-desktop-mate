@@ -64,7 +64,7 @@ RUN ln -sf /usr/local/bin/start-mate.sh /opt/conda/lib/python3.13/site-packages/
 
 # Add some shortcuts to the desktop and make a copy of HOME in case it's shadowed by a mount
 ENV HOME_TEMPLATE_DIR=/opt/install/home.template
-RUN rsync -a "$HOME" "$HOME_TEMPLATE_DIR" && \
+RUN rsync -a "$HOME/" "$HOME_TEMPLATE_DIR/" && \
     mkdir "$HOME_TEMPLATE_DIR/Desktop" && \
     ln -s \
         /usr/share/applications/mate-terminal.desktop \
