@@ -9,9 +9,9 @@ A container image providing the [MATE Desktop](https://mate-desktop.org/) runnin
 
 ## Usage
 
-```
+```sh
 docker pull ghcr.io/manics/jupyter-desktop-mate:latest
-docker run -p8888:8888 ghcr.io/manics/jupyter-desktop-mate:latest
+docker run -p127.0.0.1:8888:8888 ghcr.io/manics/jupyter-desktop-mate:latest
 ```
 
 Open the `http://127.0.0.1:8888/lab?token=<TOKEN>` URL shown in the output.
@@ -20,9 +20,9 @@ Open the `http://127.0.0.1:8888/lab?token=<TOKEN>` URL shown in the output.
 
 You can also run TigerVNC directly:
 
-```
-podman run -it --rm -ePASSWORD=secret -p5901:5901 ghcr.io/manics/jupyter-desktop-mate:latest start-tigervnc.sh
+```sh
+podman run -it --rm -ePASSWORD=secret -p127.0.0.1:5901:5901 ghcr.io/manics/jupyter-desktop-mate:latest start-tigervnc.sh
 ```
 
-and connect to `localhost:5901` in your VNC client.
+and connect to `127.0.0.1:5901` in your VNC client.
 Optionally set `PASSWORD=""` to disable authentication
