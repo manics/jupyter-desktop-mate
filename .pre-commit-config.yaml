@@ -1,13 +1,9 @@
 repos:
   # Autoformat: Python code
-  - repo: https://github.com/psf/black
+  - repo: https://github.com/psf/black-pre-commit-mirror
     rev: 26.3.1
     hooks:
       - id: black
-        args:
-          - --target-version=py38
-          - --target-version=py39
-          - --target-version=py310
 
   # Autoformat: markdown, yaml
   - repo: https://github.com/rbubley/mirrors-prettier
@@ -28,7 +24,7 @@ repos:
     rev: v2.14.0
     hooks:
       - id: hadolint-docker
-        entry: hadolint/hadolint:v2.12.1-beta hadolint
+        entry: hadolint/hadolint:v2.14.0 hadolint
 
   # Lint: Python
   - repo: https://github.com/PyCQA/flake8
@@ -39,3 +35,12 @@ repos:
             # default black line length is 88
             --max-line-length=88,
           ]
+
+    # Static security analysis of GitHub actions https://github.com/woodruffw/zizmor
+  # Additional config is in .github/zizmor.yml
+  - repo: https://github.com/woodruffw/zizmor-pre-commit
+    rev: v1.18.0
+    hooks:
+      - id: zizmor
+        args:
+          - --fix=safe
