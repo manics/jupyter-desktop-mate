@@ -31,8 +31,8 @@ jobs:
         with:
           python-version: "3.13"
 
-      # https://github.com/pre-commit/action
-      - uses: pre-commit/action@v3.0.1
+      # https://github.com/j178/prek-action
+      - uses: j178/prek-action@v2
 
       - name: Cache playwright binaries
         uses: actions/cache@v5
