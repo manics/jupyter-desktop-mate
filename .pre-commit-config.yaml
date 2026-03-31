@@ -35,3 +35,12 @@ repos:
             # default black line length is 88
             --max-line-length=88,
           ]
+
+    # Static security analysis of GitHub actions https://github.com/woodruffw/zizmor
+  # Additional config is in .github/zizmor.yml
+  - repo: https://github.com/woodruffw/zizmor-pre-commit
+    rev: v1.18.0
+    hooks:
+      - id: zizmor
+        args:
+          - --fix=safe

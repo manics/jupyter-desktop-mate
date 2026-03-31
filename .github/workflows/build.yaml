@@ -19,6 +19,9 @@ env:
   PUBLISH_BRANCH: "main"
   PLATFORMS: linux/amd64,linux/arm64
 
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-22.04
@@ -26,16 +29,18 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - uses: actions/setup-python@v6
         with:
           python-version: "3.13"
 
       # https://github.com/j178/prek-action
-      - uses: j178/prek-action@v2
+      - uses: j178/prek-action@53276d8b0d10f8b6672aa85b4588c6921d0370cc # v2.0.1
 
       - name: Cache playwright binaries
-        uses: actions/cache@v5
+        uses: actions/cache@v5 # zizmor: ignore[cache-poisoning] doesn't feed into the published image
         with:
           path: |
             ~/.cache/ms-playwright
@@ -110,6 +115,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Decide whether to push image to registry
         id: publish
