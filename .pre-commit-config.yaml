@@ -1,7 +1,7 @@
 repos:
   # Autoformat: Python code
   - repo: https://github.com/psf/black-pre-commit-mirror
-    rev: 26.3.1
+    rev: 26.5.1
     hooks:
       - id: black
 
@@ -39,7 +39,7 @@ repos:
     # Static security analysis of GitHub actions https://github.com/woodruffw/zizmor
   # Additional config is in .github/zizmor.yml
   - repo: https://github.com/woodruffw/zizmor-pre-commit
-    rev: v1.24.1
+    rev: v1.25.2
     hooks:
       - id: zizmor
         args:
