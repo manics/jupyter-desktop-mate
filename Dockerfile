@@ -43,7 +43,9 @@ RUN apt-get update -y -q \
     # Create /opt/install to ensure it's writable by pip
  && mkdir -p /opt/install "$HOME/.vnc" \
  && chown -R "$NB_UID:$NB_GID" "$HOME" /opt/install \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
+    # Disable Ubuntu upgrade popup
+ && sed -i 's/Prompt=.*/Prompt=never/' /etc/update-manager/release-upgrades
 
 USER $NB_USER
 
