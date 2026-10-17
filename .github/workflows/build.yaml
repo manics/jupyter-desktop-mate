@@ -37,7 +37,7 @@ jobs:
           python-version: "3.13"
 
       # https://github.com/j178/prek-action
-      - uses: j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece # v3.0.0
+      - uses: j178/prek-action@1382ad72dea72f9d53832f2bcb65b3e87a947204 # v3.0.1
 
       - name: Cache playwright binaries
         uses: actions/cache@v6.1.0 # zizmor: ignore[cache-poisoning] doesn't feed into the published image
