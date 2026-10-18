@@ -14,13 +14,13 @@ JUPYTER_HOST = getenv("JUPYTER_HOST", "http://localhost:8888")
 JUPYTER_TOKEN = getenv("JUPYTER_TOKEN", "secret")
 
 
-def compare_screenshot(test_image, threshold=2):
+def compare_screenshot(test_image, reference_image=HERE / "reference" / "desktop.png"):
     # Compare images by calculating the mean absolute difference
     # Images must be the same size
-    # threshold: Average difference per pixel, this depends on the image type
-    # e.g. for 24 bit images (8 bit RGB pixels) threshold=1 means a maximum
-    # difference of 1 bit per pixel per channel
-    reference = Image.open(HERE / "reference" / "desktop.png")
+    # Returns: Average difference per pixel, this depends on the image type
+    #   e.g. for 24 bit images (8 bit RGB pixels) 1 means a difference of 1 bit
+    #   per pixel per channel
+    reference = Image.open(reference_image)
     test = Image.open(test_image)
 
     # Absolute difference
@@ -29,11 +29,11 @@ def compare_screenshot(test_image, threshold=2):
     diff_data = diff.getdata()
 
     m = sum(sum(px) for px in diff_data) / diff_data.size[0] / diff_data.size[1]
-    assert m < threshold
+    return m
 
 
 # To debug this set environment variable HEADLESS=0
-def test_desktop(browser):
+def test_vnc_desktop(browser):
     page = browser
     page.goto(f"{JUPYTER_HOST}/lab?token={JUPYTER_TOKEN}")
     page.wait_for_url(f"{JUPYTER_HOST}/lab")
@@ -76,4 +76,37 @@ def test_desktop(browser):
     )
     assert clipboard.decode() == clipboard_text
 
-    compare_screenshot(screenshot)
+    threshold = 2
+    d = compare_screenshot(screenshot)
+    assert d < threshold
+
+
+def test_selkies_desktop(browser):
+    page = browser
+    page.goto(f"{JUPYTER_HOST}/lab?token={JUPYTER_TOKEN}")
+    page.wait_for_url(f"{JUPYTER_HOST}/lab")
+
+    # Open Selkies
+    expect(page.get_by_text("Selkies [↗]")).to_be_visible()
+    with page.expect_popup() as page1_info:
+        page.get_by_text("Selkies [↗]").click()
+    page1 = page1_info.value
+    page1.wait_for_url(f"{JUPYTER_HOST}/selkies/")
+
+    # Canvas should be present and visible
+    canvas = page1.locator("#videoCanvas")
+    expect(canvas).to_be_visible()
+
+    # Screenshot the desktop element only
+    Path("screenshots").mkdir(parents=True, exist_ok=True)
+    screenshot = Path("screenshots") / "desktop-selkies.png"
+
+    # Sometimes the bottom bar is missing... why?
+    threshold = 4
+    for n in range(4):
+        page1.wait_for_timeout(5000)
+        page1.locator("body").screenshot(path=screenshot)
+        d = compare_screenshot(screenshot, HERE / "reference" / "desktop-selkies.png")
+        if d < threshold:
+            break
+    assert d < threshold

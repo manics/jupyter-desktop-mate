@@ -7,6 +7,13 @@ export MOZ_DISABLE_GMP_SANDBOX=1
 export MOZ_DISABLE_RDD_SANDBOX=1
 export MOZ_DISABLE_SOCKET_PROCESS_SANDBOX=1
 
-rsync -a --ignore-existing "$HOME_TEMPLATE_DIR/" /home/jovyan/
+export HOME=${HOME:-/home/jovyan}
 
-exec dbus-launch mate-session "$@"
+rsync -a --ignore-existing "$HOME_TEMPLATE_DIR/" "${HOME}/"
+
+if [ -z "${DBUS_SESSION_BUS_ADDRESS:-}" ]; then
+  exec dbus-run-session -- mate-session "$@"
+  # exec dbus-launch mate-session "$@"
+else
+  exec mate-session "$@"
+fi
