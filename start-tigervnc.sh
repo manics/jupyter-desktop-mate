@@ -1,18 +1,20 @@
 #!/bin/sh
 set -eu
 
+export HOME=${HOME:-/home/jovyan}
+
 # Checks if PASSWORD is unset
 if [ -z "${PASSWORD+x}" ]; then
   echo "PASSWORD must be explicitly set to empty string to disable authentication"
   exit 1
 fi
 
-if [ ! -d /home/jovyan/Desktop ]; then
+if [ ! -d "${HOME}/Desktop" ]; then
   echo "First run, setting up HOME"
-  rsync -a --ignore-existing "$HOME_TEMPLATE_DIR/" /home/jovyan/
+  rsync -a --ignore-existing "$HOME_TEMPLATE_DIR/" "${HOME:-/home/jovyan}/"
 fi
 
-VNC_PASSWD=/home/jovyan/.vnc/passwd
+VNC_PASSWD="${HOME}/.vnc/passwd"
 
 if [ -z "$PASSWORD" ]; then
   AUTH_ARGS="--I-KNOW-THIS-IS-INSECURE -SecurityTypes None"
