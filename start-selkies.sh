@@ -22,4 +22,4 @@ fi
 
 unset PASSWORD
 
-exec selkies-session --port=8080 --addr=0.0.0.0 $AUTH_ARGS "$@"
+exec selkies session --port=8080 --addr=0.0.0.0 $AUTH_ARGS "$@"
