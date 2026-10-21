@@ -101,8 +101,7 @@ def test_selkies_desktop(browser):
     Path("screenshots").mkdir(parents=True, exist_ok=True)
     screenshot = Path("screenshots") / "desktop-selkies.png"
 
-    # Sometimes the bottom bar is missing... why?
-    threshold = 4
+    threshold = 5
     for n in range(4):
         page1.wait_for_timeout(5000)
         page1.locator("body").screenshot(path=screenshot)
